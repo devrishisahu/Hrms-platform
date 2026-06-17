@@ -33,13 +33,16 @@ app.use('/api/v1/notifications', require('./src/routes/notification.routes'));
 app.use('/api/v1/reports', require('./src/routes/report.routes'));
 app.use('/api/v1/dashboard', require('./src/routes/dashboard.routes'));
 
-// Serve static assets in production
-if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
-  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Serve static assets if frontend dist folder exists
+const fs = require('fs');
+const path = require('path');
+const distPath = path.join(__dirname, '../frontend/dist');
+
+if (fs.existsSync(distPath)) {
+  app.use(express.static(distPath));
   app.get('*', (req, res) => {
     if (!req.originalUrl.startsWith('/api')) {
-      res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+      res.sendFile(path.join(distPath, 'index.html'));
     } else {
       res.status(404).json({ success: false, message: `Route not found: ${req.method} ${req.originalUrl}` });
     }
