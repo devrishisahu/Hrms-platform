@@ -4,12 +4,12 @@ const crypto = require('crypto');
 const signAccessToken = (user) =>
   jwt.sign(
     { id: user._id, tenantId: user.tenantId, role: user.role, employeeId: user.employee || null },
-    process.env.JWT_ACCESS_SECRET,
+    process.env.JWT_ACCESS_SECRET || 'fallback_access_secret_hrms_platform_123',
     { expiresIn: process.env.JWT_ACCESS_EXPIRES || '15m' }
   );
 
 const signRefreshToken = (user) =>
-  jwt.sign({ id: user._id, tenantId: user.tenantId }, process.env.JWT_REFRESH_SECRET, {
+  jwt.sign({ id: user._id, tenantId: user.tenantId }, process.env.JWT_REFRESH_SECRET || 'fallback_refresh_secret_hrms_platform_123', {
     expiresIn: process.env.JWT_REFRESH_EXPIRES || '7d',
   });
 
