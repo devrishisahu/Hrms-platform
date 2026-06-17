@@ -399,14 +399,16 @@ export default function ManagerDashboard() {
             <div className="shrink-0">
               <img 
                 src={
-                  user?.employee?.gender === 'female' 
-                    ? `https://avatar.iran.liara.run/public/girl?username=${user?.employee?.firstName}`
-                    : user?.employee?.gender === 'male'
-                      ? `https://avatar.iran.liara.run/public/boy?username=${user?.employee?.firstName}`
-                      : `https://avatar.iran.liara.run/public/avatar?username=${user?.employee?.firstName}`
+                  user?.employee?.photo?.url || (
+                    user?.employee?.gender === 'female' 
+                      ? `https://avatar.iran.liara.run/public/girl?username=${user?.employee?.firstName}`
+                      : user?.employee?.gender === 'male'
+                        ? `https://avatar.iran.liara.run/public/boy?username=${user?.employee?.firstName}`
+                        : `https://avatar.iran.liara.run/public/avatar?username=${user?.employee?.firstName}`
+                  )
                 } 
-                alt="Avatar" 
-                className="h-20 w-20 object-contain drop-shadow-[0_10px_20px_rgba(197,3,55,0.25)] bg-white/5 rounded-2xl border border-white/10 p-1"
+                alt="Profile Picture" 
+                className="h-20 w-20 object-cover drop-shadow-[0_10px_20px_rgba(197,3,55,0.25)] bg-white/5 rounded-2xl border border-white/10 p-1"
               />
             </div>
 
