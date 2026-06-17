@@ -1,12 +1,23 @@
 import axios from 'axios';
 
+const getBaseURL = () => {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined') {
+    // If not running on local Vite port (5173), default to relative path
+    if (window.location.port !== '5173') {
+      return '/api/v1';
+    }
+  }
+  return 'http://localhost:5000/api/v1';
+};
+
 /**
  * Centralized API client.
  * - Attaches the access token to every request
  * - On 401, silently refreshes via the httpOnly cookie and retries once
  */
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1',
+  baseURL: getBaseURL(),
   withCredentials: true, // refresh token cookie
 });
 
